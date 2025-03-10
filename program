@@ -1,0 +1,128 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+int queue[MAX_SIZE];
+int visited[MAX_SIZE];
+int front = -1;
+int rear = -1;
+
+int stack[MAX_SIZE];
+int top = -1;
+
+int adj_matrix[MAX_SIZE][MAX_SIZE];
+int total_vertices;
+
+void enqueue(int vertex) {
+    if (rear == MAX_SIZE - 1) {
+        printf("Queue is full\n");
+        return;
+    }
+
+    if (front == -1 && rear == -1) {
+        front = rear = 0;
+    } else {
+        rear++;
+    }
+
+    queue[rear] = vertex;
+}
+
+int dequeue() {
+    if (front == -1 || front > rear) {
+        printf("Queue is empty\n");
+        return -1;
+    }
+
+    int data = queue[front];
+void push(int vertex) {
+    if (top == MAX_SIZE - 1) {
+        printf("Stack is full\n");
+        return;
+    }
+
+    top++;
+    stack[top] = vertex;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("Stack is empty\n");
+        return -1;
+    }
+
+    int data = stack[top];
+    top--;
+
+    return data;
+}
+
+void bfs(int start_vertex) {
+    int i, current_vertex;
+
+    visited[start_vertex] = 1;
+    enqueue(start_vertex);
+
+    while (front <= rear) {
+        current_vertex = dequeue();
+        printf("%d ", current_vertex);
+
+        for (i = 0; i < total_vertices; i++) {
+            if (adj_matrix[current_vertex][i] == 1 && !visited[i]) {
+                visited[i] = 1;
+                enqueue(i);
+            }
+        }
+
+    }
+}
+
+void dfs(int start_vertex) {
+    int i, current_vertex;
+    front++;
+
+    return data;
+}
+
+
+    push(start_vertex);
+    visited[start_vertex] = 1;
+
+    while (top != -1) {
+        current_vertex = pop();
+        printf("%d ", current_vertex);
+
+        for (i = 0; i < total_vertices; i++) {
+            if (adj_matrix[current_vertex][i] == 1 && !visited[i]) {
+                push(i);
+                visited[i] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int i, j;
+    printf("Enter total number of vertices: ");
+    scanf("%d", &total_vertices);
+
+    printf("\nEnter adjacency matrix:\n");
+    for (i = 0; i < total_vertices; i++) {
+        for (j = 0; j < total_vertices; j++) {
+            scanf("%d", &adj_matrix[i][j]);
+        }
+    }
+
+    printf("\nBFS Traversal: ");
+    bfs(0);
+
+    for (i = 0; i < total_vertices; i++) {
+        visited[i] = 0;
+    }
+
+    printf("\nDFS Traversal: ");
+    dfs(0);
+
+    return 0;
+}
