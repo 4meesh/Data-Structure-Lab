@@ -1,0 +1,129 @@
+#include <stdio.h>
+#include <stdlib.h>
+void swap(int *a, int *b) {
+  int temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
+void selectionsort(int a[], int n) {
+  for (int i = 0; i < n - 1; i++) {
+    int minIndex = i;
+    for (int j = i + 1; j < n; j++) {
+      if (a[j] < a[minIndex]) {
+        minIndex = j;
+      }
+    }
+    swap(&a[i], &a[minIndex]);
+  }
+}
+
+void insertionsort(int a[], int n) {
+  for (int i = 1; i < n; i++) {
+    int key = a[i];
+    int j = i - 1;
+    while (j >= 0 && a[j] > key) {
+      a[j + 1] = a[j];
+      j--;
+    }
+    a[j + 1] = key;
+  }
+}
+
+void merge(int a[], int beg, int mid, int end) {
+  int n1 = mid - beg + 1;
+  int n2 = end - mid;
+
+  int left[n1], right[n2];
+
+  for (int i = 0; i < n1; i++) {
+    left[i] = a[beg + i];
+  }
+  for (int j = 0; j < n2; j++) {
+    right[j] = a[mid + 1 + j];
+  }
+
+  int i = 0, j = 0, k = beg;
+while (i < n1 && j < n2) {
+    if (left[i] <= right[j]) {
+      a[k] = left[i];
+      i++;
+    } else {
+      a[k] = right[j];
+      j++;
+    }
+    k++;
+  }
+
+  while (i < n1) {
+    a[k] = left[i];
+    i++;
+    k++;
+  }
+
+  while (j < n2) {
+    a[k] = right[j];
+    j++;
+    k++;
+  }
+}
+
+void mergesort(int a[], int beg, int end) {
+  if (beg < end) {
+    int mid = beg + (end - beg) / 2;
+    mergesort(a, beg, mid);
+    mergesort(a, mid + 1, end);
+    merge(a, beg, mid, end);
+  }
+}
+
+int main() {
+  int n, a[100];
+ 
+
+  printf("Enter the size of the array: ");
+  scanf("%d", &n);
+
+  printf("Enter the elements of the array: ");
+  for (int i = 0; i < n; i++) {
+    scanf("%d", &a[i]);
+  }
+int ab=1;
+while(ab==1)
+{
+ int choice;
+  printf("\nenter your choice:\n");
+  printf("1.Insertion Sort\n");
+  printf("2.Selection Sort\n");
+  printf("3.Merge Sort\n");
+  printf("4.Exit\n");
+
+  printf("Enter your choice: ");
+  scanf("%d", &choice);
+
+  switch (choice) {
+    case 1:
+      insertionsort(a, n);
+      break;
+    case 2:
+      selectionsort(a, n);
+      break;
+    case 3:
+      mergesort(a, 0, n - 1);
+      break;
+    case 4:
+      exit(0);
+    default:
+      printf("\nInvalid choice.\n");
+      break;
+  }
+
+  printf("\nSorted array:");
+  for (int i = 0; i < n; i++) {
+    printf("%d ", a[i]);
+  }
+  printf("\n");
+
+  return 0;
+  }
+}
